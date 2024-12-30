@@ -13,6 +13,28 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive-style.css">
+
+
+    <style>
+        #competitionsTable {
+            width: 100%; 
+            margin: 0 auto; 
+            font-size: 1.5rem; 
+        }
+    
+        #competitionsTable th, 
+        #competitionsTable td {
+            padding: 10px;
+            text-align: center;
+        }
+    
+        #competitionsTable th {
+            font-size: 1.7rem;
+        }
+    </style>
+    
+    
+
 </head>
 <body class="product">
 
@@ -184,23 +206,29 @@
     </section>
     
     <script>
-        function sortTable(columnIndex) {
-            const table = document.getElementById("competitionsTable");
-            const rows = Array.from(table.rows).slice(1);
-            const isAscending = table.getAttribute("data-order") === "asc";
-    
-            rows.sort((rowA, rowB) => {
-                const cellA = rowA.cells[columnIndex].innerText.toLowerCase();
-                const cellB = rowB.cells[columnIndex].innerText.toLowerCase();
-    
-                if (cellA < cellB) return isAscending ? -1 : 1;
-                if (cellA > cellB) return isAscending ? 1 : -1;
-                return 0;
-            });
-    
-            table.tBodies[0].append(...rows);
-            table.setAttribute("data-order", isAscending ? "desc" : "asc");
+       function sortTable(columnIndex) {
+    const table = document.getElementById("competitionsTable");
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.rows);
+    const isAscending = table.getAttribute("data-order") === "asc";
+
+    rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[columnIndex].innerText.trim().toLowerCase();
+        const cellB = rowB.cells[columnIndex].innerText.trim().toLowerCase();
+
+        if (!isNaN(cellA) && !isNaN(cellB)) {
+            
+            return isAscending ? cellA - cellB : cellB - cellA;
+        } else {
+            
+            return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
         }
+    });
+
+    tbody.append(...rows);
+
+    table.setAttribute("data-order", isAscending ? "desc" : "asc");
+}
     </script>
     
 
@@ -209,14 +237,13 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-6 mb-5 mb-lg-0">
                     <h5>Elérhetőség</h5>
-                    <p class="mb-4 ps-0 company_details">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dignissim
-                        erat ut laoreet pharetra....
+                    <p class="mb-4 ps-0 company_details"> Ha bármilyen kérdésed van, vagy szeretnél kapcsolatba 
+                        lépni velünk, az alábbi elérhetőségeken érhetsz el minket:
                     </p>
                     <div class="contact-info">
                         <ul class="list-unstyled">
-                            <li><a href="#"><i class="fa fa-home me-3"></i> No. 96, South City, London</a></li>
-                            <li><a href="#"><i class="fa fa-phone me-3"></i> +1 222 3333</a></li>
-                            <li><a href="#"><i class="fa fa-envelope me-3"></i> info@example.com</a></li>
+                            <li><a><i class="fa fa-home me-3"></i> 6727 Szeged, Lidicei Tér 1.</a></li>
+                            <li><a><i class="fa fa-phone me-3"></i> +36 30 123 4567</a></li>
                         </ul>
                     </div>
                 </div>
@@ -238,7 +265,7 @@
             </div>
         </div>
         <div class="container-fluid copyright-section">
-            <p>Copyright <a href="#">2024 Minden jog fenntartva.</a></p>
+            <p>Copyright <a>2024 Minden jog fenntartva.</a></p>
         </div>
     </section>
 
